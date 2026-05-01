@@ -49,7 +49,19 @@ This project provides a **touchless, simple, and user-friendly** way to interact
 
 ## 📸 Screenshots
 
-*Add your screenshots here*
+## 📸 Screenshots
+
+### Home Page
+![Home](home.png)
+
+### Login Page
+![Login](login.png)
+
+### Player Page
+![Player](player.png)
+
+### Gesture Page
+![Gesture](gesture.png)
 
 ---
 
