@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Dashboard - Gesture Player</title>
+    <link rel="stylesheet" href="../static/css/dashboard.css">
+    <link rel="stylesheet" href="../static/css/navbar.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+    {% include '_head.html' %}
+</head>
+<body>
+    {% include '_navbar.html' %}
+
+    <section style="padding:60px;text-align:center;">
+        <h2>This page has been removed</h2>
+        <p>The dashboard was removed per project changes. Use the <a href="{{ url_for('player') }}">Player</a> and <a href="{{ url_for('instructions') }}">Instructions</a> pages instead.</p>
+    </section>
+
+    {% include '_footer.html' %}
+
+    <!-- mobile menu handled via _navbar.html script; no inline binding here to avoid duplicate listeners -->
+</body>
+</html>

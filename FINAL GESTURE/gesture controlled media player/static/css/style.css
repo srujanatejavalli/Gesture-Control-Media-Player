@@ -1,0 +1,495 @@
+/* -------------------------------------------------
+   GLOBAL
+------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: 0.3s ease;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* ----------- LIGHT MODE VARIABLES ---------- */
+:root {
+    --bg: #FDF5F8;
+    --text: #1b1220;
+    --card-bg: #FFFFFF;
+    --brand-dark: #540863;
+    --brand-mid: #92487A;
+    --brand-light: #E49BA6;
+    --brand-soft: #FFD3D5;
+    --primary: var(--brand-mid);
+}
+
+/* Fade up animation */
+@keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+section {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 60px 0;
+    animation: fadeUp 1s ease;
+    scroll-margin-top: 90px;
+}
+
+/* CTA tweaks */
+.cta-container{ margin-top: 48px; text-align: center; padding-bottom: 40px; }
+.cta-container p { max-width: 820px; margin: 0 auto 18px; color: rgba(27,18,32,0.75); }
+.cta-btn.big{ display:inline-block; margin-top: 14px; z-index:1 }
+
+/* Dashboard tweaks */
+.dashboard-grid{ display:grid; grid-template-columns: 1fr 340px; gap:24px; align-items:start }
+.dashboard-hero { background: linear-gradient(180deg, var(--brand-soft), #fff); padding:20px; border-radius:12px; box-shadow: 0 12px 30px rgba(84,8,99,0.04); }
+.card{ transition: transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s ease; }
+.card:hover{ transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+.card.fade-in { animation: fadeUp .6s ease both; }
+
+.site-footer{ margin-top:40px; padding:18px 0; }
+
+/* -------------------------------------------------
+   NAVBAR (FULL RESPONSIVE)
+------------------------------------------------- */
+.navbar {
+    width: 100%;
+    padding: 18px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(84, 8, 99, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    position: fixed;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 3px 18px rgba(84, 8, 99, 0.12);
+    border-bottom: 1px solid rgba(84, 8, 99, 0.1);
+}
+
+/* Reserve space for the fixed navbar so page content does not
+   flow under the header on small screens; adjusted responsively */
+body { padding-top: 120px; }
+@media (max-width: 900px) {
+    body { padding-top: 160px; }
+    .logo-img { height: 56px; }
+    .logo-text { font-size: 1.1rem; }
+}
+@media (max-width: 420px) {
+    body { padding-top: 180px; }
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.logo-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-img {
+    height: 80px;
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.05);
+}
+
+.logo-text {
+    font-size: 1.6rem;
+    font-weight: 800;
+    display: flex;
+    gap: 0;
+}
+
+/* NAV LINKS */
+.nav-links {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex: 1;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+}
+
+/* NAV RIGHT ACTIONS */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-left: auto;
+}
+
+/* LOGIN/SIGNUP BUTTON */
+.nav-btn {
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.login-btn { background: var(--primary); color: #fff; }
+.signup-btn { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+
+.login-btn:hover { background: #3a0652; }
+.signup-btn:hover { background: var(--primary); color: #fff; }
+
+/* ---------------- HAMBURGER ---------------- */
+.hamburger { display: none; width: 32px; height: 22px; position: relative; cursor: pointer; }
+.hamburger span {
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    background: var(--text);
+    border-radius: 2px;
+    transition: 0.3s ease;
+}
+.hamburger span:nth-child(1) { top: 0; }
+.hamburger span:nth-child(2) { top: 9px; }
+.hamburger span:nth-child(3) { top: 18px; }
+.hamburger.active span:nth-child(1) { transform: rotate(45deg); top: 9px; }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg); top: 9px; }
+
+/* -------------------------------------------------
+   HERO SECTION
+------------------------------------------------- */
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px; /* reduced - navbar offset handled by body padding */
+    scroll-margin-top: 90px;
+}
+
+.hero-content {
+    width: 50%;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    opacity: 0.8;
+    margin: 20px 0;
+}
+
+/* Common button styles */
+.hero-content .login-btn,
+.hero-content .signup-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    color: var(--primary);  /* default text color */
+    background: linear-gradient(135deg, #FFD3D5, #E49BA6); /* image-like gradient */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+/* Login button overrides */
+.hero-content .login-btn {
+    color: #fff;
+    background: linear-gradient(135deg, #92487A, #540863); /* darker gradient for login */
+}
+
+/* Signup button overrides */
+.hero-content .signup-btn {
+    color: #fff;
+    background: linear-gradient(135deg, #92487A, #540863); /* lighter gradient for signup */
+    border: 2px solid var(--primary);
+}
+
+/* Hover effect for both buttons */
+.hero-content .login-btn:hover,
+.hero-content .signup-btn:hover {
+    background: #3a0652;  /* dark background on hover */
+    color: #fff;           /* text white on hover */
+    transform: translateY(-3px);  /* subtle lift effect */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+
+.cta-btn {
+    padding: 14px 35px;
+    background: var(--primary);
+    color: white;
+    border-radius: 35px;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.cta-btn:hover {
+    background: black;
+    transform: translateY(-4px);
+}
+
+.hero-image {
+    width: 45%;
+    height: 330px;
+    background: var(--card-bg);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+.hero-image video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+}
+
+
+/* -------------------------------------------------
+   GESTURE DEMO SECTION
+------------------------------------------------- */
+.demo-section {
+    margin-top: 150px;
+}
+
+.demo-section h2 {
+    text-align: center;
+    font-size: 2.2rem;
+}
+
+.section-subtitle {
+    text-align: center;
+    opacity: 0.7;
+    margin-bottom: 30px;
+}
+
+.gesture-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.gesture-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0px 6px 20px rgba(0,0,0,0.08);
+    font-size: 1.1rem;
+}
+
+.gesture-card:hover {
+    transform: translateY(-8px);
+}
+
+/* -------------------------------------------------
+   FEATURES
+------------------------------------------------- */
+.features h2 {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+    gap: 25px;
+}
+
+.feature-card {
+    background: rgba(84, 8, 99, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 6px 15px rgba(0,0,0,0.08);
+    border: 1px solid rgba(146, 72, 122, 0.3);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    background: rgba(84, 8, 99, 0.4);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.feature-card h3 {
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+.feature-card p {
+    color: #000000;
+}
+
+/* -------------------------------------------------
+   CTA Section
+------------------------------------------------- */
+.cta-container {
+    text-align: center;
+}
+
+.cta-container h2 {
+    font-size: 2rem;
+}
+
+.cta-btn.big {
+    margin-top: 20px;
+    padding: 16px 45px;
+    font-size: 1.3rem;
+}
+
+/* -------------------------------------------------
+   FOOTER
+------------------------------------------------- */
+footer {
+    padding: 30px 0;
+    background: rgba(84, 8, 99, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(84, 8, 99, 0.1);
+    opacity: 1;
+}
+
+/* Default: Desktop view */
+.mobile-login { display: none; }
+/* DESKTOP LOGIN BUTTON (Pill box) */
+.desktop-login {
+    padding: 10px 26px;
+    border-radius: 35px;
+    border: 2px solid var(--primary);
+    background: transparent;
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+/* Hover effect: dark background + white text */
+.desktop-login:hover {
+    background: var(--brand-dark);
+    color: #fff;
+    border-color: var(--brand-dark);
+}
+
+
+.hamburger {
+    display: none;
+    width: 32px;
+    height: 22px;
+    position: relative;
+    cursor: pointer;
+    z-index: 200; /* ensure it's above nav-links */
+}
+
+@media (max-width: 900px) {
+    /* Hide desktop login */
+    .desktop-login {
+        display: none;
+    }
+
+    /* Show mobile login */
+    .mobile-login {
+        display: block;
+    }
+    .hamburger {
+        display: block;  /* Important! Make it visible */
+    }
+    .nav-links {
+        position: absolute; /* use absolute so it doesn't block page scroll */
+        top: 60px; /* below navbar */
+        right: -100%;
+        width: 220px;
+        flex-direction: column;
+        padding: 20px;
+        gap: 15px;
+        background: var(--card-bg);
+        border-radius: 8px;
+        box-shadow: -2px 0 12px rgba(0,0,0,0.2);
+        opacity: 0;
+        transform: translateX(50px);
+        transition: right 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+        z-index: 100;
+        height: auto; /* height fits content */
+    }
+
+    .nav-links.show {
+        right: 0;
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .nav-links a.nav-btn {
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+        border-radius: 8px;
+        font-weight: 600;
+        background: var(--primary);
+        color: #fff;
+    }
+
+    .nav-links a.nav-btn:hover {
+        background: #3a0652;
+    }
+
+    .nav-actions { display: none; }
+    .mobile-login { display: block; }
+
+    .hero {
+        flex-direction: column;   /* stack items */
+        text-align: center;
+        padding-top: 12px; /* keep compact on mobile since body offset already reserves space */
+    }
+
+    .hero-content {
+        width: 100%;
+        margin-bottom: 20px;      /* spacing before video */
+    }
+
+    .hero-image {
+        width: 100%;
+        height: 260px;            /* reduced height for mobile */
+        margin-top: 15px;
+    }
+
+    .hero-content .login-btn,
+    .hero-content .signup-btn {
+        width: 100%;
+        max-width: 250px;
+        text-align: center;
+        display: block;
+        margin: 10px auto;
+    }
+
+}

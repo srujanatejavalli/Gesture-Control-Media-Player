@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gesture YouTube Player</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/navbar.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+    {% include '_head.html' %}
+</head>
+
+<body class="home-page">
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <a href="#home" class="logo-link">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="GestureFlow Logo" class="logo-img">
+            <span class="logo-text"><span style="color: #540863;">Gesture</span><span style="color: #92487A;">Flow</span></span>
+        </a>
+
+        <!-- Nav Links -->
+        <div class="nav-links" id="navLinks">
+            <a href="#home">Home</a>
+            <a href="#demo">How It Works</a>
+            <a href="#features">Features</a>
+            
+            
+            <!-- Mobile login -->
+            <a href="{{ url_for('login') }}" class="nav-btn login-btn mobile-login">Login</a>
+        </div>
+
+        <!-- Desktop login -->
+        <a href="{{ url_for('login') }}" class="login-btn desktop-login">Login</a>
+        
+
+        <!-- Hamburger (outside nav-actions!) -->
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1> Control YouTube with Your Hands</h1>
+            <p>Experience a futuristic way to interact with your videos.  
+            Gesture-controlled, fast, smooth — no touch required.</p>
+            <a href="{{ url_for('login') }}" class="login-btn">Login</a>
+            <a href="{{ url_for('register') }}" class="nav-btn signup-btn">Sign Up</a>
+    
+        </div>
+
+        <div class="hero-image">
+            <video autoplay muted loop playsinline>
+                <source src="{{ url_for('static', filename='../static/videos/hero.mp4') }}" type="video/mp4">
+            </video>
+        </div>
+
+    </section>
+       
+
+    <!-- GESTURE DEMO -->
+    <section class="demo-section" id="demo">
+        <h2>How It Works</h2>
+        <p class="section-subtitle">Five gestures. Total control.</p>
+
+        <div class="gesture-grid">
+            <div class="gesture-card"><i class="fa-solid fa-forward-step player-icon" aria-hidden="true"></i> <b>1 Finger</b> — Forward +10s</div>
+            <div class="gesture-card"><i class="fa-solid fa-backward-step player-icon" aria-hidden="true"></i> <b>2 Fingers</b> — Backward -10s</div>
+            <div class="gesture-card"><i class="fa-solid fa-volume-high player-icon" aria-hidden="true"></i> <b>3 Fingers</b> — Volume Up</div>
+            <div class="gesture-card"><i class="fa-solid fa-volume-low player-icon" aria-hidden="true"></i> <b>4 Fingers</b> — Volume Down</div>
+            <div class="gesture-card"><i class="fa-solid fa-circle-play player-icon" aria-hidden="true"></i> <b>5 Fingers</b> — Play/Pause</div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features" id="features">
+        <h2>Features</h2>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3><i class="fa-solid fa-bolt"></i> Real-time Detection</h3>
+                <p>Super-fast gesture recognition powered by advanced computer vision.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3><i class="fa-solid fa-lock"></i> Secure Login</h3>
+                <p>Fast authentication system protecting your saved video preferences.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3><i class="fa-solid fa-mobile-screen-button"></i> Fully Responsive</h3>
+                <p>Beautiful on mobile, tablet, and desktop — everywhere.</p>
+            </div>
+        </div>
+    </section>
+
+    
+        <!-- CTA -->
+        <section class="cta-container">
+            <h2>Ready to Try It?</h2>
+            <p>Join thousands of users who love hands-free video control.</p>
+            <a href="{{ url_for('login') }}" class="cta-btn big">Start Now <i class="fa-solid fa-arrow-right"></i></a>
+        </section>
+
+        <!-- Stats Banner
+        <div style="margin-top: 40px; background: linear-gradient(180deg, #92487A 0%, #540863 100%); color: white; padding: 30px; border-radius: 14px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; text-align: center;">
+            <div>
+                <div style="font-size: 2rem; font-weight: 700;">25,000+</div>
+                <div style="opacity: 0.9;">Happy Customers</div>
+            </div>
+            <div>
+                <div style="font-size: 2rem; font-weight: 700;">200+</div>
+                <div style="opacity: 0.9;">Projects Delivered</div>
+            </div>
+            <div>
+                <div style="font-size: 2rem; font-weight: 700;">4.9 <i class="fa-solid fa-star"></i></div>
+                <div style="opacity: 0.9;">Rating (2,488 reviews)</div>
+            </div>
+        </div> -->
+    </section>
+
+    {% include '_footer.html' %}
+
+
+    <!-- mobile menu handled by shared `_navbar.html` script; inline handler removed to avoid duplicate listeners -->
+<style>
+
+<!-- FOOTER -->
+{% include '_footer.html' %}
+
+<script>
+    const hamburger = document.getElementById("hamburger");
+    const navLinks = document.getElementById("navLinks");
+
+    // Toggle menu on click
+    hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navLinks.classList.toggle("show");
+    });
+
+    // Close menu when scrolling
+    window.addEventListener("scroll", () => {
+        if(navLinks.classList.contains("show")){
+            navLinks.classList.remove("show");
+            hamburger.classList.remove("active");
+        }
+    });
+
+
+</script>
+
+
+</body>
+</html>

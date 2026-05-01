@@ -1,0 +1,280 @@
+/* ============================================
+   GLOBAL RESET
+============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    overflow-x: hidden; /* 🚫 no horizontal scroll */
+    font-family: "Poppins", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.4s ease, color 0.3s ease;
+}
+
+/* ============================================
+   COLOR VARIABLES (LIGHT MODE)
+============================================ */
+:root {
+    --bg: #fff6f7;
+    --text: #1b1220;
+    --card-bg: #ffffff;
+    --brand-dark: #540863;
+    --brand-mid: #92487A;
+    --brand-light: #E49BA6;
+    --brand-soft: #FFD3D5;
+    --primary: var(--brand-mid);
+    --secondary: var(--brand-dark);
+    --shadow: rgba(0, 0, 0, 0.06);
+}
+
+/* ============================================
+   DARK MODE
+============================================ */
+/* Dark mode removed — using brand palette only */
+
+/* ============================================
+   LAYOUT
+============================================ */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+    animation: fadeIn 0.8s ease;
+}
+
+.header h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ============================================
+   MAIN CARD WRAPPER
+============================================ */
+.card {
+    background: var(--card-bg);
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px var(--shadow);
+    transition: background 0.4s ease;
+}
+
+/* ============================================
+   GRID OF GESTURES
+============================================ */
+.instructions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+.gesture-card {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 6px 20px var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.gesture-card:hover {
+    transform: translateY(-10px) scale(1.04);
+    box-shadow: 0 15px 40px var(--shadow);
+}
+
+/* Gesture badge (clear, high-contrast icons) */
+.gesture-badge {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: #fff;
+    margin: 0 auto 12px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    box-shadow: 0 8px 18px rgba(84,8,99,0.12);
+}
+
+/* ============================================
+   BUTTONS
+============================================ */
+.btn {
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    padding: 12px 25px;
+    border-radius: 12px;
+    border: none;
+    color: white !important;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+.btn-secondary {
+    background: #c5cae9;
+    color: black !important;
+}
+
+.btn-secondary:hover {
+    background: #b4b9df;
+}
+
+.btn-danger {
+    background: #e53935;
+}
+.btn-danger:hover {
+    background: #c62828;
+}
+
+/* ============================================
+   ALERTS (notifications)
+============================================ */
+.alert {
+    padding: 12px 18px;
+    margin: 10px 0;
+    border-radius: 10px;
+    font-weight: 500;
+    animation: fadeIn 0.5s ease;
+}
+
+.alert-info {
+    background: rgba(102, 126, 234, 0.15);
+    color: var(--primary);
+}
+
+.alert-success {
+    background: rgba(76, 175, 80, 0.15);
+    color: #43a047;
+}
+
+/* ============================================
+   ANIMATIONS
+============================================ */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Pop-in effect for gesture cards */
+.gesture-card {
+    animation: fadeIn 0.6s ease forwards;
+    opacity: 0;
+}
+
+/* ============================================
+   RESPONSIVE
+============================================ */
+@media (max-width: 600px) {
+    .header h1 {
+        font-size: 1.8rem;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+    }
+    /* theme toggle removed */
+}
+
+/* =========================
+   CLEAN SOLID TIMELINE
+========================= */
+.tips-timeline{
+  position:relative;
+  margin-top:60px;
+}
+
+/******** ROW LAYOUT ********/
+.timeline-row{
+  display:grid;
+  grid-template-columns:1fr 80px 1fr;
+  align-items:center;
+  margin:75px 0;
+  position:relative;
+  opacity:0;
+  transform:translateY(25px);
+  animation:fadeUp .9s ease forwards;
+}
+
+/******** CENTER LINE ********/
+.timeline-center{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:120px;
+}
+
+.timeline-center::before{
+  content:"";
+  position:absolute;
+  width:6px;
+  height:150%;
+  background:var(--brand-mid);     /* SOLID COLOR LINE */
+  border-radius:4px;
+  z-index:0;
+}
+
+/******** DOTS ********/
+.dot{
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background:var(--brand-soft);    /* LIGHT COLOR BUTTON */
+  border:4px solid #fff;           /* clean border */
+  z-index:2;
+}
+
+/******** TIMELINE CARDS ********/
+.tip-box{
+  background:#ffffff;
+  border:1px solid var(--brand-soft);
+  padding:18px 22px;
+  border-radius:14px;
+  box-shadow:0 8px 18px var(--shadow);
+}
+
+.tip-box h4{
+  color:var(--brand-dark);
+  margin-bottom:6px;
+  font-size:1.15rem;
+  font-weight:700;
+}
+
+.tip-box p{
+  color:#333;
+  font-size:.95rem;
+}
+
+/******** ANIMATIONS ********/
+@keyframes fadeUp{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}

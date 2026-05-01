@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Contact Support - Gesture Player</title>
+    <link rel="stylesheet" href="../static/css/help.css">
+    <link rel="stylesheet" href="../static/css/navbar.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+    {% include '_head.html' %}
+  </head>
+  <body>
+    <!-- Back Button -->
+    <button class="back-btn" title="Go Back" onclick="history.back()">
+        <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    {% include '_navbar.html' %}
+    <main class="help-container">
+      <div class="help-hero">
+        <h1>Contact Support</h1>
+      </div>
+
+      <div class="help-card">
+        <h3>Need help from our team?</h3>
+        <p>If you need assistance, please fill the form below or email us at <a href="mailto:support@gesture.com">support@gesture.com</a> or call +91 98765 43210.</p>
+
+        <form id="contact-form" class="contact-form" style="margin-top:12px;">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="6" required></textarea>
+          </div>
+          <button type="submit" class="btn">Send Message</button>
+          <div id="contact-result" style="margin-top:12px;color:var(--p1);"></div>
+        </form>
+      </div>
+
+    </main>
+    {% include '_footer.html' %}
+
+    <script>
+    // Submit contact using the feedback endpoint
+    document.getElementById('contact-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+
+      try {
+        const res = await fetch('{{ url_for('feedback') }}', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, message })
+        });
+        if (res.ok) {
+          document.getElementById('contact-result').innerText = 'Message sent — we will respond via email.';
+          e.target.reset();
+        } else {
+          const data = await res.json();
+          document.getElementById('contact-result').innerText = data.error || 'Failed to send message.';
+        }
+      } catch (err) {
+        document.getElementById('contact-result').innerText = 'Network error. Please try later.';
+      }
+    });
+    </script>
+  </body>
+</html>

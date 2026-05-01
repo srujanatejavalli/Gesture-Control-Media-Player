@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>FAQ - Gesture Player</title>
+    <link rel="stylesheet" href="../static/css/help.css">
+    <link rel="stylesheet" href="../static/css/navbar.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+    {% include '_head.html' %}
+  </head>
+  <body>
+    <!-- Back Button -->
+    <button class="back-btn" title="Go Back" onclick="history.back()">
+        <i class="fa-solid fa-arrow-left"></i>
+    </button>
+    {% include '_navbar.html' %}
+    <main class="help-container">
+      <div class="help-hero">
+        <h1>Frequently Asked Questions</h1>
+      </div>
+      <div class="help-intro">Find answers to common questions about using the Gesture Controlled Media Player.</div>
+      <div class="details-wrapper" style="margin-top:12px;">
+        <details>
+          <summary>Why are my gestures not being recognized?</summary>
+          <p>Common causes include poor lighting, camera angle, or slow network. Try repositioning and ensure gestures are clearly visible to the camera.</p>
+        </details>
+        <details>
+          <summary>Is my data private?</summary>
+          <p>We do not upload or store video streams; only telemetry and feedback may be saved. See our <a href="{{ url_for('help_privacy') }}">Privacy & Data Policy</a> for details.</p>
+        </details>
+        <details>
+          <summary>Which browsers are supported?</summary>
+          <p>Chrome and Edge are recommended. Mobile support is limited and depends on camera permission APIs.</p>
+        </details>
+        <details>
+          <summary>How do I submit a bug?</summary>
+          <p>Use the Contact Support or Feedback page to send screenshots and details of the behavior. We appreciate reproducible steps.</p>
+        </details>
+      </div>
+    </main>
+    {% include '_footer.html' %}
+  </body>
+</html>

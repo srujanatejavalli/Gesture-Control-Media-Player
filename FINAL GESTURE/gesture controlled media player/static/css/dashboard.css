@@ -1,0 +1,166 @@
+/* --------------------------------------------------
+   CLEAN & SIMPLE DASHBOARD UI (SAME COLOR PALETTE)
+-------------------------------------------------- */
+:root {
+    --c1: #540863;
+    --c2: #92487A;
+    --c3: #E49BA6;
+    --c4: #FFD3D5;
+
+    --text-dark: #2a2a2a;
+    --text-light: #fff;
+    --bg: #fff;
+
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 14px rgba(84, 8, 99, 0.08);
+}
+
+/* Dark mode override - removed
+    Rely on brand palette only */
+body {
+    background: var(--bg);
+    color: var(--text-dark);
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* ----------------------------
+   PAGE WRAPPER
+----------------------------- */
+section {
+    padding: 20px;
+    max-width: 1150px;
+    margin: 0 auto;
+}
+
+/* ----------------------------
+   CARDS — CLEAN & SIMPLE
+----------------------------- */
+.card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(84, 8, 99, 0.18);
+}
+
+/* Titles inside cards */
+.card h3 {
+    margin: 0 0 10px;
+    font-size: 1.2rem;
+    color: var(--c1);
+}
+
+/* ------------------------------------------
+   HELP & RESOURCES SECTION
+------------------------------------------ */
+.help-card {
+    border-left: 5px solid var(--c1);
+}
+
+.help-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.help-list li {
+    margin-bottom: 12px;
+}
+
+.help-list a {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--c1);
+    transition: color .22s ease, padding-left .22s ease;
+}
+
+.help-list a:hover {
+    color: var(--c2);
+    padding-left: 6px;
+}
+
+
+/* ----------------------------
+   GRID LAYOUT (Desktop)
+----------------------------- */
+.dashboard-grid,
+section div[style*="grid-template-columns"] {
+    display: grid !important;
+    grid-template-columns: 1fr 350px !important;
+    gap: 24px !important;
+}
+
+/* ----------------------------
+   BUTTONS — SIMPLER
+----------------------------- */
+.btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: var(--c1);
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.25s ease;
+}
+
+.btn:hover {
+    background: var(--c2);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: var(--c2);
+}
+.btn-secondary:hover {
+    background: var(--c1);
+}
+
+/* ----------------------------
+   SUBTLE LIST STYLE
+----------------------------- */
+ul li {
+    margin-bottom: 8px;
+    color: #6b5260;
+    line-height: 1.4;
+}
+
+/* ----------------------------
+   MOBILE RESPONSIVE
+----------------------------- */
+@media (max-width: 900px) {
+
+    /* Single column */
+    .dashboard-grid,
+    section div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Increase space left/right for clean layout */
+    section {
+        padding: 20px 26px;   /* ⬅️ LEFT + RIGHT increased */
+    }
+
+    .card {
+        padding: 22px;
+        border-radius: 16px;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Nice spacing between elements */
+    h2 {
+        margin-left: 6px;
+    }
+}

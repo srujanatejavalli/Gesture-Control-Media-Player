@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Gesture YouTube Player</title>
+  <link rel="stylesheet" href="../static/css/feedback.css">
+  <link rel="stylesheet" href="../static/css/feedback-enhanced.css">
+  <link rel="stylesheet" href="../static/css/navbar.css">
+  <link rel="stylesheet" href="../static/css/footer.css">
+  {% include '_head.html' %}
+  <style>
+    /* Glassmorphic input styling with interactive effects */
+    #feedback-form input[type="text"],
+    #feedback-form input[type="email"],
+    #feedback-form textarea,
+    #feedback-form select {
+      background: rgba(84, 8, 99, 0.12);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 2px solid #aa6e94ff;
+      color: #1b1220;
+      font-family: "Poppins", sans-serif;
+      padding: 12px 16px;
+      border-radius: 10px;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    #feedback-form input[type="text"]::placeholder,
+    #feedback-form input[type="email"]::placeholder,
+    #feedback-form textarea::placeholder {
+      color: rgba(107, 82, 96, 0.6);
+    }
+
+    #feedback-form input[type="text"]:hover,
+    #feedback-form input[type="email"]:hover,
+    #feedback-form textarea:hover,
+    #feedback-form select:hover {
+      background: rgba(84, 8, 99, 0.18);
+      border-color: #92487A;
+    }
+
+    #feedback-form input[type="text"]:focus,
+    #feedback-form input[type="email"]:focus,
+    #feedback-form textarea:focus,
+    #feedback-form select:focus {
+      outline: none;
+      background: rgba(84, 8, 99, 0.25);
+      border-color: #540863;
+      box-shadow: 0 0 25px rgba(170, 110, 148, 0.5), inset 0 0 15px rgba(84, 8, 99, 0.15);
+      transform: translateY(-2px);
+    }
+
+    /* Label styling */
+    #feedback-form label {
+      color: #540863;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    /* Form group spacing */
+    #feedback-form .form-group {
+      margin-bottom: 20px;
+    }
+
+    /* Select dropdown arrow color */
+    #feedback-form select {
+      appearance: none;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23540863' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 20px;
+      padding-right: 40px;
+    }
+  </style>
+</head>
+<body class="feedback-page">
+  <!-- Back Button -->
+  <button class="back-btn" title="Go Back" onclick="history.back()">
+      <i class="fa-solid fa-arrow-left"></i>
+  </button>
+
+  <div class="container">
+
+    <!-- NAVBAR (Option A = full nav) -->
+    {% include '_navbar.html' %}
+
+    <main class="card" role="main" aria-labelledby="feedback-title">
+      <div class="header">
+        <div>
+          <h1 id="feedback-title"><span class="feedback-icon"><i class="fa-solid fa-pen"></i></span> Share Your Feedback</h1>
+          <p class="muted">Help us improve the gesture control experience!</p>
+        </div>
+      </div>
+
+      <section class="feedback-form" aria-labelledby="form-title">
+        <h2 id="form-title">We'd Love to Hear From You!</h2>
+
+        <div id="alert-container" aria-live="polite"></div>
+
+        <form id="feedback-form" novalidate>
+          <div class="form-group">
+            <label for="name">Your Name:</label>
+            <input id="name" name="name" type="text" placeholder="Enter your name" required value="{{ user.name }}">
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input id="email" name="email" type="email" placeholder="your.email@example.com" required value="{{ user.email }}">
+          </div>
+
+          <div class="form-group">
+            <label for="rating">Rate Your Experience:</label>
+            <div class="rating-container" >
+              <div class="star-rating" id="star-rating" aria-hidden="false" role="radiogroup">
+                <span class="star" data-rating="1" role="radio" aria-checked="false">★</span>
+                <span class="star" data-rating="2" role="radio" aria-checked="false">★</span>
+                <span class="star" data-rating="3" role="radio" aria-checked="false">★</span>
+                <span class="star" data-rating="4" role="radio" aria-checked="false">★</span>
+                <span class="star" data-rating="5" role="radio" aria-checked="false">★</span>
+              </div>
+              <span id="rating-text"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="category">Feedback Category:</label>
+            <select id="category" name="category" required>
+              <option value="general">General Feedback</option>
+              <option value="gesture-accuracy">Gesture Recognition Accuracy</option>
+              <option value="performance">Performance Issues</option>
+              <option value="ui-ux">User Interface/Experience</option>
+              <option value="feature-request">Feature Request</option>
+              <option value="bug-report">Bug Report</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Your Message:</label>
+            <textarea id="message" name="message" placeholder="Tell us about your experience..." required></textarea>
+            <div ><span id="char-count">0</span>/1000</div>
+          </div>
+
+          <div class="form-group">
+            <label >
+              <input id="allow-follow-up" type="checkbox">
+              Allow us to follow up via email if needed
+            </label>
+          </div>
+
+          <button type="submit" id="submit-btn" class="btn" >
+            <span id="submit-text">Submit Feedback</span>
+            <div id="submit-spinner" ></div>
+          </button>
+        </form>
+      </section>
+
+      <section >
+        <div class="quick-section card" >
+          <h3><i class="fa-solid fa-bolt"></i> Quick Feedback</h3>
+          <p class="muted">Or click one of these quick options:</p>
+          <div >
+            <button class="quick-feedback btn-secondary" data-feedback="The gesture recognition works great!"><i class="fa-solid fa-check"></i> Works Great</button>
+            <button class="quick-feedback btn-secondary" data-feedback="The interface is very user-friendly."><i class="fa-solid fa-star"></i> Great UI</button>
+            <button class="quick-feedback btn-secondary" data-feedback="I had some issues with gesture detection accuracy."><i class="fa-solid fa-gear"></i> Accuracy Issues</button>
+            <button class="quick-feedback btn-secondary" data-feedback="The app is running slowly on my device."><i class="fa-solid fa-bolt"></i> Performance Issues</button>
+            <button class="quick-feedback btn-secondary" data-feedback="I would like more gesture options."><i class="fa-solid fa-plus"></i> More Features</button>
+          </div>
+        </div>
+      </section>
+
+      
+    </main>
+
+  </div>
+
+  <!-- Feedback page uses the shared navbar mobile menu (no local mobile nav) -->
+  <!-- JS: interactivity (star rating, submit) -->
+  <script>
+    (function(){
+      // We rely on the central mobile nav in _navbar.html; here we only implement feedback-specific JS
+
+      // Star rating handling
+      const stars = document.querySelectorAll('.star');
+      const p1 = getComputedStyle(document.documentElement).getPropertyValue('--p1').trim() || '#540863';
+      const ratingText = document.getElementById('rating-text');
+      let selectedRating = 0;
+      function setStars(r) {
+        selectedRating = r;
+        stars.forEach((s, i) => {
+          if (i < r) { s.classList.add('active'); s.setAttribute('aria-checked','true'); }
+          else { s.classList.remove('active'); s.setAttribute('aria-checked','false'); }
+        });
+        const texts = {1:'Poor',2:'Fair',3:'Good',4:'Very Good',5:'Excellent'};
+        ratingText.textContent = r ? texts[r] : '';
+      }
+      stars.forEach(star => {
+        star.addEventListener('click', ()=> setStars(parseInt(star.dataset.rating)));
+        star.addEventListener('mouseenter', ()=> {
+          const r = parseInt(star.dataset.rating);
+          stars.forEach((s,i)=> s.style.transform = (i<r)?'scale(1.1)':'scale(1)');
+        });
+        star.addEventListener('mouseleave', ()=> {
+          stars.forEach((s,i)=> s.style.transform = (i<selectedRating)?'scale(1)':'scale(1)');
+        });
+      });
+
+      // Char counter
+      const message = document.getElementById('message');
+      const charCount = document.getElementById('char-count');
+      message.addEventListener('input', () => {
+        let len = message.value.length;
+        if (len > 1000) { message.value = message.value.slice(0,1000); len = 1000; }
+        charCount.textContent = len;
+      });
+
+      // Quick feedback buttons
+      document.querySelectorAll('.quick-feedback').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const feedback = btn.dataset.feedback || '';
+          message.value = feedback;
+          message.dispatchEvent(new Event('input'));
+          // set rating heuristics
+          let r = 4;
+          if (feedback.toLowerCase().includes('great') || feedback.toLowerCase().includes('user-friendly')) r = 5;
+          if (feedback.toLowerCase().includes('issues') || feedback.toLowerCase().includes('slow')) r = 2;
+          setStars(r);
+          showAlert('Quick feedback selected. Edit if you want, then submit.', 'info');
+        });
+      });
+
+      // Alerts util
+      const alertContainer = document.getElementById('alert-container');
+      function showAlert(msg, type='info') {
+        alertContainer.innerHTML = '';
+        const div = document.createElement('div');
+        div.className = 'alert ' + (type==='info'?'alert-info': type==='success'?'alert-success':'alert-error');
+        div.textContent = msg;
+        alertContainer.appendChild(div);
+        setTimeout(()=> { div.remove(); }, 4000);
+      }
+
+      // Form submission
+      const form = document.getElementById('feedback-form');
+      const submitBtn = document.getElementById('submit-btn');
+      const submitText = document.getElementById('submit-text');
+      const submitSpinner = document.getElementById('submit-spinner');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const message = document.getElementById('message').value.trim();
+        const rating = selectedRating;
+        const category = document.getElementById('category').value;
+        const allowFollowUp = document.getElementById('allow-follow-up').checked;
+
+        if (!name || !email || !message) { 
+          showAlert('Please fill in all required fields.', 'error'); 
+          return; 
+        }
+        if (!rating) { 
+          showAlert('Please select a rating.', 'error'); 
+          return; 
+        }
+
+        // Build email body
+        const emailBody = `New Feedback Submission
+
+Name: ${name}
+Email: ${email}
+Rating: ${rating}/5 stars
+Category: ${category}
+Allow Follow-up: ${allowFollowUp ? 'Yes' : 'No'}
+
+Message:
+${message}`;
+
+        // Create mailto link
+        const subject = encodeURIComponent(`New Feedback from ${name}`);
+        const body = encodeURIComponent(emailBody);
+        const mailtoLink = `mailto:gesturemediaplayer@gmail.com?subject=${subject}&body=${body}`;
+
+        // Open default email client
+        window.location.href = mailtoLink;
+
+        // Show thank you message
+        showAlert('Your default email app will open. Please click Send to submit your feedback.', 'info');
+        form.reset(); 
+        setStars(0); 
+        charCount.textContent = '0';
+      });
+
+      // spinner keyframes injection
+      const style = document.createElement('style');
+      style.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+      document.head.appendChild(style);
+
+    })();
+  </script>
+  {% include '_footer.html' %}
+</body>
+</html>

@@ -1,0 +1,109 @@
+<header class="navbar" role="banner">
+    <a href="{{ url_for('home') }}" class="logo-link">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="GestureFlow Logo" class="logo-img">
+        <h1 class="logo-text"><span style="color: #540863;">Gesture</span><span style="color: #92487A;">Flow</span></h1>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="{{ url_for('instructions') }}">Instructions</a>
+      <a href="{{ url_for('player') }}">Gesture Detection</a>
+      <a href="{{ url_for('feedback') }}">Feedback</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="back-btn-navbar" title="Go Back" onclick="history.back()">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <button id="logout-btn" class="logout-btn">Logout</button>
+      <div class="hamburger" id="hamburger">&#9776;</div>
+    </div>
+</header>
+
+<!-- Logout Confirmation Modal -->
+<div id="logoutModal" class="logout-modal" style="display:none;">
+  <div class="logout-modal-content">
+    <h3>Confirm Logout</h3>
+    <p>Are you sure you want to logout?</p>
+    <div class="logout-modal-actions">
+      <button id="confirmLogout" class="btn">Yes, Logout</button>
+      <button id="cancelLogout" class="btn btn-secondary">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  // Safety checks
+  if (!navLinks || !hamburger) return;
+
+  // Hamburger toggle
+    hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('show');
+    document.body.classList.toggle('no-scroll');
+  });
+
+  // Close menu if clicking outside on mobile
+  document.addEventListener('click', (evt) => {
+    const target = evt.target;
+    if (window.innerWidth <= 900 && navLinks.classList.contains('show')) {
+      if (!navLinks.contains(target) && !hamburger.contains(target)) {
+        navLinks.classList.remove('show');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('no-scroll');
+      }
+    }
+  });
+
+  // No theme toggle — single palette enforced
+  // Close menu on resize to desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900 && navLinks.classList.contains('show')) {
+      navLinks.classList.remove('show');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('no-scroll');
+    }
+  });
+
+  // Logout confirmation
+  const logoutBtn = document.getElementById('logout-btn');
+  const logoutModal = document.getElementById('logoutModal');
+  const confirmLogout = document.getElementById('confirmLogout');
+  const cancelLogout = document.getElementById('cancelLogout');
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      logoutModal.style.display = 'flex';
+    });
+  }
+
+  if (confirmLogout) {
+    confirmLogout.addEventListener('click', () => {
+      window.location.href = "{{ url_for('logout') }}";
+    });
+  }
+
+  if (cancelLogout) {
+    cancelLogout.addEventListener('click', () => {
+      logoutModal.style.display = 'none';
+    });
+  }
+
+  if (logoutModal) {
+    logoutModal.addEventListener('click', (e) => {
+      if (e.target === logoutModal) {
+        logoutModal.style.display = 'none';
+      }
+    });
+  }
+
+  // Optional: close mobile menu on resize to desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900 && navLinks.classList.contains('show')) {
+      navLinks.classList.remove('show');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }
+  });
+});
+</script>

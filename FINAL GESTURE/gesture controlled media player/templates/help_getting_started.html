@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Getting Started - Gesture Player</title>
+    <link rel="stylesheet" href="../static/css/help.css">
+    <link rel="stylesheet" href="../static/css/navbar.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+    {% include '_head.html' %}
+  </head>
+  <body>
+    <!-- Back Button -->
+    <button class="back-btn" title="Go Back" onclick="history.back()">
+        <i class="fa-solid fa-arrow-left"></i>
+    </button>
+
+    {% include '_navbar.html' %}
+
+    <main class="help-container">
+      <div class="help-hero">
+        <h1>Getting Started</h1>
+      </div>
+
+      <p class="help-intro">Welcome! This guide will get you set up with Gesture Controlled Media Player quickly. For the step-by-step gesture walkthrough, go to the full <a href="{{ url_for('instructions') }}">Instructions</a> page.</p>
+
+      <div class="help-card">
+        <h3>Quick Start</h3>
+        <ol class="help-content">
+          <li>Register or login to your account.</li>
+          <li>Open the Player and click "Start Camera" to enable your camera.</li>
+          <li>Refer to the <a href="{{ url_for('instructions') }}">Gesture Instructions</a> to learn the five core gestures.</li>
+          <li>Use the Feedback page to report issues or request features.</li>
+        </ol>
+      </div>
+
+      <div class="help-card">
+        <h3>Need visual help?</h3>
+        <p class="help-content">Head to <a href="{{ url_for('instructions') }}">Instructions</a> where each gesture is shown with an example and tips to improve recognition.</p>
+      </div>
+
+    </main>
+
+    {% include '_footer.html' %}
+  </body>
+</html>

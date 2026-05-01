@@ -1,0 +1,414 @@
+/* ---------------------------------------
+   COLOR PALETTE
+---------------------------------------- */
+:root {
+  --p1: #540863;
+  --p2: #92487A;
+  --p3: #E49BA6;
+  --p4: #FFD3D5;
+
+  --white: #ffffff;
+  --black: #000000;
+
+  --nav-bg: rgba(255, 255, 255, 0.95);
+  --nav-blur: blur(14px);
+  /* local light fallback if global variables not loaded */
+  --nav-bg-light: rgba(255,255,255,0.98);
+  /* local strong fallback */
+  --nav-bg-strong: rgba(228,155,166,0.14);
+}
+
+/* ---------------------------------------
+   BACK BUTTON
+---------------------------------------- */
+.back-btn {
+  position: fixed;
+  top: 16px;
+  right: 34px;
+  z-index: 999;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(84, 8, 99, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(84, 8, 99, 0.2);
+  border-radius: 50%;
+  color: #540863;
+  font-size: 1.2rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(84, 8, 99, 0.1);
+  display: none;
+}
+
+.back-btn:hover {
+  background: rgba(84, 8, 99, 0.25);
+  box-shadow: 0 4px 16px rgba(84, 8, 99, 0.2);
+  transform: translateX(3px);
+  color: #540863;
+}
+
+.back-btn:active {
+  transform: translateX(5px);
+}
+
+/* Back Button in Navbar */
+.back-btn-navbar {
+  width: auto;
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: #540863;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: none;
+  padding: 0;
+  text-decoration: none;
+}
+
+.back-btn-navbar:hover {
+  background: transparent;
+  box-shadow: none;
+  transform: translateX(-3px);
+  color: #540863;
+}
+
+.back-btn-navbar:active {
+  transform: translateX(-5px);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .back-btn-navbar {
+    font-size: 1rem;
+  }
+}
+
+/* Old fixed back-btn - keep for fallback on pages without navbar */
+@media (max-width: 600px) {
+  .back-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    top: 12px;
+    right: 15px;
+  }
+}
+
+/* ---------------------------------------
+   NAVBAR
+---------------------------------------- */
+.navbar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  padding: 16px 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(84, 8, 99, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 3px 18px rgba(84, 8, 99, 0.12);
+  border-bottom: 1px solid rgba(84, 8, 99, 0.1);
+  z-index: 1000;
+  animation: slideDown 0.7s ease forwards;
+}
+
+/* Slide animation */
+@keyframes slideDown {
+  from { transform: translateY(-40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Logo */
+.logo {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--p1);
+}
+.logo span {
+  color: var(--p2);
+}
+
+.logo-link {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-img {
+  height: 80px;
+  width: auto;
+  transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+  transform: scale(1.05);
+}
+
+.logo-text {
+  font-size: 1.6rem;
+  font-weight: 800;
+  display: flex;
+  gap: 0;
+}
+
+/* ---------------------------------------
+   NAVIGATION LINKS
+---------------------------------------- */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.nav-links a {
+  position: relative;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--black);
+  padding: 6px 4px;
+  font-size: 1rem;
+}
+
+/* underline animation */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: var(--p1);
+  transition: width 0.3s ease;
+}
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* ---------------------------------------
+   ACTION BUTTONS
+---------------------------------------- */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* Logout */
+.logout-btn {
+  background: linear-gradient(135deg, var(--p1), var(--p2));
+  padding: 8px 16px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+.logout-btn:hover {
+  transform: scale(1.06);
+}
+
+/* ---------------------------------------
+   HAMBURGER
+---------------------------------------- */
+.hamburger {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--p1);
+  user-select: none;
+}
+
+/* ---------------------------------------
+   MOBILE MENU
+---------------------------------------- */
+@media (max-width: 900px) {
+
+  /* mobile menu (hidden initially, now slides from right) */
+  .nav-links {
+    position: fixed;
+    top: 80px;
+    right: -260px; /* hidden off-screen RIGHT side */
+    width: 240px;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(14px);
+
+    flex-direction: column;
+    gap: 16px;
+    padding: 18px 16px;
+
+    border-radius: 12px 0 0 12px;
+    box-shadow: -6px 0 20px rgba(0,0,0,0.25);
+    z-index: 1500;
+
+    transition: right 0.35s ease, max-height .35s ease, opacity .35s ease, transform 0.35s ease;
+
+    max-height: none;
+    height: auto;
+    opacity: 0;
+    overflow: auto;
+
+    margin-left: 0;
+  }
+
+  /* When menu is opened */
+  .nav-links.show {
+    right: 0;
+    opacity: 1;
+    transform: translateX(0);
+    max-height: calc(100vh - 100px);
+  }
+
+  /* mobile link style */
+  .nav-links a {
+    font-size: 1.15rem;
+    padding: 10px;
+    width: 100%;
+    border-radius: 8px;
+    position: relative;
+  }
+
+  /* underline ONLY hover */
+  .nav-links a::after {
+    bottom: 0;
+    height: 2px;
+  }
+
+  /* Remove mobile box hover */
+  .nav-links a:hover {
+    background: transparent;
+    padding-left: 10px;
+  }
+
+  /* Show hamburger on mobile */
+  .hamburger {
+    display: block;
+  }
+}
+
+/* ---------------------------------------
+   BODY OFFSET
+   Reserve space for the fixed navbar. Adjusted to avoid content
+   overlapping the header on narrow screens (mobile devices).
+---------------------------------------- */
+body {
+  padding-top: 120px; /* desktop default */
+}
+
+/* Increase the top offset on smaller screens where the navbar may wrap */
+@media (max-width: 900px) {
+  body { padding-top: 160px; }
+  .logo-img { height: 56px; } /* make logo smaller on mobile to reduce header height */
+  .logo-text { font-size: 1.1rem; }
+}
+
+@media (max-width: 420px) {
+  body { padding-top: 180px; }
+}
+
+
+/* ---------------------------------------
+   LOGOUT MODAL
+---------------------------------------- */
+.logout-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeInModal 0.3s ease;
+}
+
+@keyframes fadeInModal { 
+  from { opacity:0 } 
+  to { opacity:1 } 
+}
+
+.logout-modal-content {
+  background: var(--white);
+  padding: 28px;
+  border-radius: 14px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  animation: slideUpModal 0.3s ease;
+}
+
+@keyframes slideUpModal { 
+  from { transform:translateY(30px); opacity:0 } 
+  to { transform:none; opacity:1 } 
+}
+
+.logout-modal-content h3 {
+  margin-bottom: 12px;
+  color: var(--p1);
+  font-size: 1.2rem;
+}
+
+.logout-modal-content p {
+  color: #6b5260;
+  margin-bottom: 20px;
+}
+
+.logout-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.logout-modal-actions .btn {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  background: var(--p2);
+  color: white;
+}
+
+.logout-modal-actions .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(146,72,122,0.3);
+}
+
+.logout-modal-actions .btn-secondary {
+  background: #f0f0f0;
+  color: #1b1220;
+}
+
+.logout-modal-actions .btn-secondary:hover {
+  background: #e8e8e8;
+}
+
+/* Disable scroll when menu is open */
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* -------------------------------------------------
+   FOOTER
+------------------------------------------------- */
+footer {
+  text-align: center;
+  padding: 30px 0;
+  background: rgba(84, 8, 99, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(84, 8, 99, 0.1);
+  opacity: 1;
+}

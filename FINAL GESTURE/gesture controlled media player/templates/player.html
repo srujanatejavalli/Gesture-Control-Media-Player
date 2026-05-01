@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gesture Player - Control YouTube with Hands</title>
+
+  <!-- Link to the CSS below (place file in static/css/style.css) -->
+  <link rel="stylesheet" href="../static/css/player.css">
+  <link rel="stylesheet" href="../static/css/navbar.css">
+  <link rel="stylesheet" href="../static/css/footer.css">
+  {% include '_head.html' %}
+</head>
+<body>
+  <!-- Back Button -->
+  <button class="back-btn" title="Go Back" onclick="history.back()">
+      <i class="fa-solid fa-arrow-left"></i>
+  </button>
+
+  {% include '_navbar.html' %}
+
+  <div class="container">
+      <header class="header">
+          <div class="header-left">
+              <div style="display: flex; align-items: center; gap: 7px;">
+                  <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" style="width: 60px; height: auto;">
+                  <h1 style="margin: 0;"> Gesture Control Player</h1>
+              </div>
+              <p class="subtitle" style="margin-top: 8px; margin-left: 67px;">Control your video with hand gestures!</p>
+          </div>
+
+          <!-- 3D Lottie animation -->
+          <div class="header-lottie">
+            <lottie-player
+              src="https://assets1.lottiefiles.com/packages/lf20_ktwnwv5m.json"
+              background="transparent"
+              speed="1"
+              style="width:110px; height:110px;"
+              loop
+              autoplay>
+            </lottie-player>
+          </div>
+      </header>
+
+      <main class="player-container">
+          <!-- Video Section -->
+          <section class="card video-section">
+              <h3><i class="fa-solid fa-tv player-icon" aria-hidden="true"></i> Video Player</h3>
+
+              <div class="url-input" id="url-input-container">
+                  <input type="url" id="video-url" placeholder="Paste YouTube URL here..."
+                         value="https://youtu.be/WyK7s-osTLs?si=LyjSjw3rme9A1NQ4">
+                  <button id="load-video" class="btn">Load Video</button>
+              </div>
+
+              <div id="youtube-player" class="youtube-player" aria-label="YouTube player container"></div>
+
+              <div class="status-display" style="display: flex; align-items: center; justify-content: space-between; gap: 15px;">
+                  <div id="video-status" class="status">Ready to load video</div>
+                  <button id="try-it-btn" class="btn" style="padding: 10px 20px; font-size: 15px; flex-shrink: 0;">Try it</button>
+              </div>
+
+              <script>
+                  const loadVideoBtn = document.getElementById('load-video');
+                  const tryItBtn = document.getElementById('try-it-btn');
+                  const videoInput = document.getElementById('video-url');
+                  const urlInputContainer = document.getElementById('url-input-container');
+
+                  // When Load Video is clicked
+                  loadVideoBtn.addEventListener('click', function() {
+                      urlInputContainer.style.display = 'none';
+                      videoInput.disabled = true;
+                  });
+
+                  // When Try it is clicked
+                  tryItBtn.addEventListener('click', function() {
+                      urlInputContainer.style.display = 'flex';
+                      videoInput.disabled = false;
+                  });
+              </script>
+
+              <div class="backup-controls">
+                  <h4><i class="fa-solid fa-sliders"></i> Manual Controls (Backup)</h4>
+                  <div class="backup-buttons">
+                      <button onclick="testGesture('skip_backward')" class="control-btn backward">
+                          <span class="btn-icon"><i class="fa-solid fa-backward-step" aria-hidden="true"></i></span>
+                          <span class="btn-label">-10s</span>
+                          <span class="btn-action">Skip Backward</span>
+                      </button>
+                      <button onclick="testGesture('play_pause')" class="control-btn play">
+                          <span class="btn-icon"><i class="fa-solid fa-circle-play" aria-hidden="true"></i></span>
+                          <span class="btn-label">Play/Pause</span>
+                          <span class="btn-action">Toggle</span>
+                      </button>
+                      <button onclick="testGesture('skip_forward')" class="control-btn forward">
+                          <span class="btn-icon"><i class="fa-solid fa-forward-step" aria-hidden="true"></i></span>
+                          <span class="btn-label">+10s</span>
+                          <span class="btn-action">Skip Forward</span>
+                      </button>
+                      <button onclick="testGesture('volume_down')" class="control-btn volume-down">
+                          <span class="btn-icon"><i class="fa-solid fa-volume-low" aria-hidden="true"></i></span>
+                          <span class="btn-label">Vol-</span>
+                          <span class="btn-action">Volume Down</span>
+                      </button>
+                      <button onclick="testGesture('volume_up')" class="control-btn volume-up">
+                          <span class="btn-icon"><i class="fa-solid fa-volume-high" aria-hidden="true"></i></span>
+                          <span class="btn-label">Vol+</span>
+                          <span class="btn-action">Volume Up</span>
+                      </button>
+                  </div>
+                  <p class="muted">Use these if gesture control isn't working or for testing.</p>
+              </div>
+          </section>
+
+          <!-- Webcam Section -->
+          <section class="card webcam-section">
+              <h3><i class="fa-solid fa-camera"></i> Gesture Detection</h3>
+
+              <div class="webcam-box">
+                  <video id="webcam-video" autoplay muted playsinline></video>
+                  <div id="webcam-overlay" class="webcam-overlay"></div>
+              </div>
+
+              <div class="webcam-controls">
+                  <button id="start-camera" class="btn">Start Camera</button>
+                  <button id="stop-camera" class="btn btn-danger">Stop Camera</button>
+              </div>
+
+              <div class="status-display">
+                  <div id="webcam-status" class="status">Camera ready</div>
+              </div>
+
+              <div class="status-display">
+                  <div id="gesture-status" class="gesture-status">Show your hand to start</div>
+              </div>
+
+              
+
+              
+          </section>
+      </main>
+
+      <!-- Help floating button -->
+      <button id="help-toggle" class="fab" title="Help"><i class="fa-solid fa-question"></i></button>
+
+      <!-- Help Modal -->
+      <div id="help-modal" class="modal" aria-hidden="true">
+          <div class="modal-content">
+              <h3><i class="fa-solid fa-life-ring"></i> Need Help?</h3>
+              <div class="modal-body">
+                  <h4>Common Issues</h4>
+                  <ul>
+                      <li><strong>Camera not working:</strong> Check browser permissions</li>
+                      <li><strong>Gestures not detected:</strong> Improve lighting, show palm clearly</li>
+                      <li><strong>Video not loading:</strong> Ensure it's a valid YouTube URL</li>
+                      <li><strong>Slow response:</strong> Hold gesture for 1-2 seconds</li>
+                  </ul>
+
+                  <h4>Tips</h4>
+                  <ul>
+                      <li>Keep hand 1–2 feet from camera</li>
+                      <li>Face a light source for best detection</li>
+                      <li>Spread fingers clearly apart</li>
+                      <li>Use keyboard shortcuts as backup</li>
+                  </ul>
+              </div>
+              <button id="close-help" class="btn">Got it!</button>
+          </div>
+      </div>
+
+  </div>
+
+  {% include '_footer.html' %}
+
+  <!-- Lottie player -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+  <!-- MediaPipe libs (kept as you had) -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+
+  <!-- Your app scripts (unchanged) -->
+  <script src="{{ url_for('static', filename='js/video.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/gesture.js') }}"></script>
+
+  <!-- UI script (dark mode, help modal, small interactive animations) -->
+  <script>
+  (function(){
+    // Theme toggle removed — single brand palette enforced
+
+    // Help modal
+    const helpToggle = document.getElementById('help-toggle');
+    const helpModal = document.getElementById('help-modal');
+    const closeHelp = document.getElementById('close-help');
+
+    helpToggle.addEventListener('click', () => {
+      helpModal.style.display = 'flex';
+      helpModal.setAttribute('aria-hidden', 'false');
+    });
+    closeHelp.addEventListener('click', closeModal);
+    helpModal.addEventListener('click', (e) => { if (e.target === helpModal) closeModal(); });
+    function closeModal(){ helpModal.style.display = 'none'; helpModal.setAttribute('aria-hidden','true'); }
+
+    // Quick notifications (used by other parts; you can call showNotification(message, type))
+    window.showNotification = function(message, type='info'){
+      const n = document.createElement('div');
+      n.className = 'notification ' + (type==='info'? 'info': type==='success'? 'success':'error');
+      n.textContent = message;
+      document.body.appendChild(n);
+      n.animate([{ opacity: 0, transform: 'translateY(-10px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 300 });
+      setTimeout(()=> n.animate([{ opacity:1 }, { opacity:0, transform:'translateY(-10px)'}], {duration:300}).onfinish = () => n.remove(), 3000);
+    };
+
+    // Gesture demo UI pulser: when gesture invoked show a quick pulse
+    window.showGestureDemo = function(text){
+      const el = document.getElementById('gesture-status');
+      if (!el) return;
+      el.textContent = text;
+      el.classList.add('pulse');
+      setTimeout(()=> el.classList.remove('pulse'), 700);
+    };
+
+    // small UX for start/stop camera buttons
+    const startBtn = document.getElementById('start-camera');
+    const stopBtn = document.getElementById('stop-camera');
+    if (startBtn){ startBtn.addEventListener('click', () => {
+        startBtn.disabled = true; startBtn.textContent = 'Starting...';
+        setTimeout(()=>{ startBtn.disabled = false; startBtn.textContent = 'Start Camera'; }, 1300);
+    }); }
+    if (stopBtn){ stopBtn.addEventListener('click', () => {
+        stopBtn.disabled = true; stopBtn.textContent = 'Stopping...';
+        setTimeout(()=>{ stopBtn.disabled = false; stopBtn.textContent = 'Stop Camera'; }, 700);
+    }); }
+
+    // Keyboard shortcuts hooking to existing testGesture if present (fallback)
+    document.addEventListener('keydown', (e) => {
+      if (['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) return;
+      const key = e.key;
+      let action = null;
+      if (key === '1') action = 'skip_forward';
+      if (key === '2') action = 'skip_backward';
+      if (key === '3') action = 'volume_up';
+      if (key === '4') action = 'volume_down';
+      if (key === '5' || key === ' ') { action = 'play_pause'; e.preventDefault(); }
+      if (action){
+        // call existing function if present
+        if (typeof window.handleGestureCommand === 'function'){
+          window.handleGestureCommand(action);
+        } else if (typeof testGesture === 'function'){
+          testGesture(action);
+        }
+        window.showGestureDemo(action.replace('_',' ').toUpperCase());
+      }
+    });
+
+    // welcome notification
+    setTimeout(()=> showNotification('Load a YouTube video and start your camera to begin gesture control.','info'), 800);
+
+  })();
+  </script>
+
+  <style>
+  /* Small inline fallback styles for lottie container size safety */
+  .header-lottie lottie-player { display:block; margin-left:auto; }
+  </style>
+
+</body>
+</html>

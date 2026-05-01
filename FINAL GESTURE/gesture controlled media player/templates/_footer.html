@@ -1,0 +1,70 @@
+<footer class="footer">
+    <!-- Logo and Title Section -->
+    <div class="footer-header">
+        <div class="footer-logo-section">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="footer-logo">
+            <h2 class="footer-title"><span style="color: #540863;">Gesture</span><span style="color: #92487A;">Flow</span></h2>
+        </div>
+    </div>
+
+    <div class="footer-container">
+
+        <!-- Quick Navigation -->
+        <div class="footer-section">
+            <h3>Quick Access</h3>
+            <ul>
+                <li><a href="{{ url_for('instructions') }}"><i class="fa-solid fa-book"></i> Instructions</a></li>
+                <li><a href="{{ url_for('player') }}"><i class="fa-solid fa-hands"></i> Gesture Detection</a></li>
+                <li><a href="{{ url_for('feedback') }}"><i class="fa-solid fa-pen"></i> Feedback</a></li>
+            </ul>
+        </div>
+
+        <!-- About -->
+        <div class="footer-section">
+            <h3>About</h3>
+            <p>Gesture-controlled YouTube experience powered by advanced hand gesture recognition technology.</p>
+        </div>
+
+        <!-- Contact -->
+        <div class="footer-section">
+            <h3>Contact</h3>
+            <ul>
+                <li><i class="fa-solid fa-phone"></i> +91 98765 43210</li>
+                <li><i class="fa-solid fa-envelope"></i> support@gesture.com</li>
+                <li><i class="fa-solid fa-location-dot"></i> Hyderabad, India</li>
+            </ul>
+        </div>
+
+        <!-- Social -->
+        <div class="footer-section">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-instagram"></i> Instagram</a>
+                <a href="#"><i class="fa-brands fa-youtube"></i> YouTube</a>
+                <a href="#"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+            </div>
+        </div>
+
+        <!-- Help -->
+        <div class="footer-section">
+            <h3>Help & Resources</h3>
+            {% if user %}
+            <ul>
+                <li><a href="{{ url_for('help_getting_started') }}"><i class="fa-solid fa-play"></i> Getting Started</a></li>
+                <li><a href="{{ url_for('help_faq') }}"><i class="fa-solid fa-question"></i> FAQ</a></li>
+                <li><a href="{{ url_for('help_privacy') }}"><i class="fa-solid fa-shield-halved"></i> Privacy</a></li>
+            </ul>
+            {% else %}
+            <p><a href="{{ url_for('help_getting_started') }}">Visit our Help Center</a> for guidance.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Full Width Divider -->
+    <div class="footer-divider"></div>
+
+    <!-- Bottom -->
+    <div class="footer-bottom">
+        © 2025 Gesture Controlled Media Player — All Rights Reserved.
+    </div>
+</footer>

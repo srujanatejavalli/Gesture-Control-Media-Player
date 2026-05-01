@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Gesture YouTube Player</title>
+    <link rel="stylesheet" href="../static/css/register.css">
+    {% include '_head.html' %}
+</head>
+
+<body>
+    <!-- theme toggle removed - single palette enforced -->
+
+    <div class="auth-container">
+        <div class="auth-card">
+
+            <!-- Two-column area: media (left) + content (right) -->
+            <div class="auth-body">
+                <div class="auth-media">
+                    <div class="lottie-box">
+                        <!-- dotlottie element placed here for better layout control -->
+                        <dotlottie-wc src="https://lottie.host/ad37d862-17ff-4c85-bb95-46cf70d6506f/CPU2zXQTfH.lottie" style="width: 300px; height: 300px;" autoplay loop></dotlottie-wc>
+                    </div>
+                </div>
+
+                <div class="auth-content">
+                    <h2><i class="fa-solid fa-user-plus" aria-hidden="true"></i> Create Account</h2>
+                    <p style="text-align:center; color:var(--subtext)">Join gesture control experience</p>
+
+                    <!-- ALERT CONTAINER (Missing earlier — now fixed) -->
+                    <div id="alert-container"></div>
+
+                    <form id="register-form">
+
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input id="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input id="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input id="password" type="password" required>
+                    <div id="password-strength"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input id="confirm-password" type="password" required>
+                    <div id="password-match"></div>
+                </div>
+
+                <div class="form-group terms-row">
+                    <input type="checkbox" id="terms">
+                    <label for="terms" class="terms-label">I agree to Terms &amp; Policy</label>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn" id="register-btn" disabled>
+                        <span id="register-text">Create Account</span>
+                        <div class="spinner" id="register-spinner"></div>
+                    </button>
+                </div>
+
+            </form>
+
+            <div class="auth-links">
+                <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+                <p><a href="javascript:history.back()" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back</a></p>
+            </div>
+
+            <!-- close auth-content / auth-body / auth-card / auth-container -->
+                </div> <!-- .auth-content -->
+            </div> <!-- .auth-body -->
+        </div> <!-- .auth-card -->
+    </div> <!-- .auth-container -->
+
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.11/dist/dotlottie-wc.js" type="module"></script>
+    <script>
+        // theme toggle removed - nothing to handle here
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const registerForm = document.getElementById('register-form');
+            const registerBtn = document.getElementById('register-btn');
+            const registerText = document.getElementById('register-text');
+            const registerSpinner = document.getElementById('register-spinner');
+            const alertContainer = document.getElementById('alert-container');
+
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirm-password');
+            const termsCheckbox = document.getElementById('terms');
+
+            const passwordStrengthDiv = document.getElementById('password-strength');
+            const passwordMatchDiv = document.getElementById('password-match');
+
+            function validateForm() {
+                const isValid = 
+                    nameInput.value.trim() &&
+                    emailInput.value.trim() &&
+                    passwordInput.value.length >= 6 &&
+                    passwordInput.value === confirmPasswordInput.value &&
+                    termsCheckbox.checked;
+
+                registerBtn.disabled = !isValid;
+                registerBtn.style.opacity = isValid ? "1" : "0.6";
+            }
+
+            passwordInput.addEventListener('input', function () {
+                const password = this.value;
+                let strength = 0;
+
+                if (password.length >= 6) strength++;
+                if (/[a-z]/.test(password)) strength++;
+                if (/[A-Z]/.test(password)) strength++;
+                if (/[0-9]/.test(password)) strength++;
+                if (/[^a-zA-Z0-9]/.test(password)) strength++;
+
+                const strengthMessages = [
+                    '<i class="fa-solid fa-circle-xmark"></i> Very Weak',
+                    '<i class="fa-solid fa-triangle-exclamation"></i> Weak',
+                    '<i class="fa-solid fa-thumbs-up"></i> Good',
+                    '<i class="fa-solid fa-circle-check"></i> Strong',
+                    '<i class="fa-solid fa-lock"></i> Very Strong'
+                ];
+                const colors = ["#dc3545", "#fd7e14", "#ffc107", "#198754", "#198754"];
+
+                passwordStrengthDiv.innerHTML = strength ? strengthMessages[strength - 1] : "";
+                passwordStrengthDiv.style.color = colors[strength - 1] || "";
+
+                validateForm();
+            });
+
+            confirmPasswordInput.addEventListener('input', function () {
+                const match = passwordInput.value === this.value;
+                passwordMatchDiv.innerHTML = this.value 
+                    ? match ? '<i class="fa-solid fa-circle-check"></i> Passwords match' : '<i class="fa-solid fa-circle-xmark"></i> Passwords do not match'
+                    : "";
+                passwordMatchDiv.style.color = match ? "#198754" : "#dc3545";
+
+                validateForm();
+            });
+
+            [nameInput, emailInput, termsCheckbox].forEach(el => {
+                el.addEventListener('input', validateForm);
+                el.addEventListener('change', validateForm);
+            });
+
+            registerForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const formData = {
+                    name: nameInput.value,
+                    email: emailInput.value,
+                    password: passwordInput.value
+                };
+
+                registerText.style.display = "none";
+                registerSpinner.style.display = "block";
+                registerBtn.disabled = true;
+
+                try {
+                    const response = await fetch("/register", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        showAlert("Account created successfully! Redirecting...", "success");
+                        setTimeout(() => window.location.href = "/login", 2000);
+                    } else {
+                        showAlert(data.error || "Registration failed", "error");
+                    }
+
+                } catch (error) {
+                    showAlert("Network error. Try again.", "error");
+                }
+
+                registerText.style.display = "inline";
+                registerSpinner.style.display = "none";
+                validateForm();
+            });
+
+            function showAlert(message, type) {
+                const alert = document.createElement("div");
+                alert.className = `alert alert-${type}`;
+                alert.textContent = message;
+
+                alertContainer.innerHTML = "";
+                alertContainer.appendChild(alert);
+
+                setTimeout(() => alert.remove(), 5000);
+            }
+        });
+    </script>
+</body>
+</html>
