@@ -91,16 +91,6 @@ python app.py
 
 ---
 
-## 👨‍💻 My Role
-
-Frontend Developer
-
-* Designed UI
-* Handled user interaction
-* Connected frontend with backend
-
----
-
 ## ⭐ Conclusion
 
 This project provides a simple and modern **touchless video control system** using hand gestures.
